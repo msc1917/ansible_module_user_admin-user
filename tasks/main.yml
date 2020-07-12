@@ -1,0 +1,57 @@
+---
+- name: Create defaut Groups
+  group:
+    name: "{{ item.name }}"
+    gid: "{{ item.uid }}"
+    state: present
+  become: yes
+  with_items:
+    - "{{ admin_users }}"
+    - { name: "sudo-nopwd", uid: "1199" }
+
+- name: Set sudo-nopwd-settings in sudoers-file
+  lineinfile:
+    path: /etc/sudoers
+    regexp: '^%sudo-nopwd '
+    insertafter: '^%sudo'
+    line: '%sudo-nopwd ALL=(ALL) NOPASSWD: ALL'
+    validate: '/usr/sbin/visudo -cf %s'
+  become: yes
+
+- name: Create defaut User
+  user:
+    name: "{{ item.name }}"
+    comment: "{{ item.full_name }}"
+    group: "{{ item.name }}"
+    groups: "{{ admin_groups }}"
+    password: "{{ item.password }}"
+    uid: "{{ item.uid }}"
+    shell: "{{ item.shell }}"
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+    ssh_key_file: .ssh/id_rsa
+    ssh_key_comment: "{{ item.name }}@{{ inventory_hostname }}"
+    state: present
+  become: yes
+  with_items:
+    - "{{ admin_users }}"
+
+- name: Set SSH-Key for default Admin User
+  authorized_key:
+    user: "{{ item.user }}"
+    key: "{{ item.key }}"
+    state: present
+  become: yes
+  with_items:
+    - "{{ ssh_keys }}"
+
+- name: Copy .vimrc
+  copy:
+    src: "vim/vimrc"
+    dest: "/home/{{ item.name }}/.vimrc"
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+    mode: '0644'
+  become: yes
+  with_items:
+    - "{{ admin_users }}"
