@@ -1,0 +1,13 @@
+" set nu
+" set backup
+" set backupext=.bak
+" set hlsearch
+set incsearch
+set ruler
+set showcmd
+set showfulltag
+set showmatch
+set showmode
+set bg=dark
+" colo pablo
+" syntax on
