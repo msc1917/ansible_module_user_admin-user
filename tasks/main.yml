@@ -20,13 +20,13 @@
 
 - name: Create defaut User
   user:
-    name: "{{ item.name }}"
-    comment: "{{ item.full_name }}"
-    group: "{{ item.name }}"
-    groups: "{{ admin_groups }}"
+    name:     "{{ item.name }}"
+    comment:  "{{ item.full_name }}"
+    group:    "{{ item.name }}"
+    groups:   "{{ item.groups }}"
     password: "{{ item.password }}"
-    uid: "{{ item.uid }}"
-    shell: "{{ item.shell }}"
+    uid:      "{{ item.uid }}"
+    shell:    "{{ item.shell }}"
     generate_ssh_key: yes
     ssh_key_bits: 2048
     ssh_key_file: .ssh/id_rsa
