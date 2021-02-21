@@ -19,7 +19,7 @@
   become: yes
 
 - name: Create defaut User
-  user:
+  ansible.builtin.user:
     name:     "{{ item.name }}"
     comment:  "{{ item.full_name }}"
     group:    "{{ item.name }}"
