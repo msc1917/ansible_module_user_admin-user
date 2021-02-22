@@ -32,6 +32,7 @@
     ssh_key_file: .ssh/id_rsa
     ssh_key_comment: "{{ item.name }}@{{ inventory_hostname }}"
     state: present
+    append: yes
   become: yes
   with_items:
     - "{{ admin_users }}"
