@@ -56,3 +56,35 @@
   become: yes
   with_items:
     - "{{ admin_users }}"
+
+- name: Create bin-directory
+  file:
+    path: "/home/{{ item.name }}/bin"
+    state: directory
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+    mode: 0755
+  become: yes
+  with_items:
+    - "{{ admin_users }}"
+
+- name: Copy system_status.sh
+  copy:
+    src: "system_status.sh"
+    dest: "/home/{{ item.name }}/bin/system_status.sh"
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+    mode: '0744'
+  become: yes
+  with_items:
+    - "{{ admin_users }}"
+
+- name: Update .bashrc with system_status.sh
+  lineinfile:
+    dest: "/home/{{ item.name }}/.bashrc"
+    line: 'if [ -f ~/bin/system_status.sh ]; then ~/bin/system_status.sh; fi'
+    insertafter: "EOF"
+    state: present
+  become: yes
+  with_items:
+    - "{{ admin_users }}"
