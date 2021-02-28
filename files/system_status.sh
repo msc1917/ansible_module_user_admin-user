@@ -17,6 +17,13 @@ then
     exit 0
 fi
 
+if [ -n ${COLUMNS} ]
+then
+    WINDOWSIZE=${COLUMNS}
+else
+    WINDOWSIZE=120
+fi
+
 RED='\033[0;31m'
 GREEN='\033[1;32m'
 YELLOW='\033[1;33m'
