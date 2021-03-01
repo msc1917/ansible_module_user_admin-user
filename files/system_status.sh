@@ -9,6 +9,9 @@
 # Version 1.0    2021.02.24    Martin Schatz     First Version
 # Version 1.1    2021.02.24    Martin Schatz     Added Progress-Bar
 #
+# Todos:
+#   - Weite des Terminalfensters ausnutzen
+#
 ###
 
 # Check if Terminal is interactice:
