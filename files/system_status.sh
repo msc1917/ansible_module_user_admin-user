@@ -9,6 +9,7 @@
 # Version 1.0    2021.02.24    Martin Schatz     First Version
 # Version 1.1    2021.02.24    Martin Schatz     Added Progress-Bar
 # Version 1.2    2021.03.04    Martin Schatz     Adapted terminal Width
+# Version 1.3    2021.03.07    Martin Schatz     Added TB-Size
 #
 # Todos:
 #   - Cleanup
@@ -56,7 +57,10 @@ show_bar () {
 convertMB () {
     if echo "${1}" | grep -q "^[0-9][0-9]*$"
     then
-        if [ ${1} -gt 1024 ]
+        if [ ${1} -gt 1048576 ]
+        then
+            echo "$(expr ${1} \* 100 \/ 1048576 \/ 100).$(expr ${1} \* 100 \/ 1048576 % 100) TB"
+        elif [ ${1} -gt 1024 ]
         then
             echo "$(expr ${1} \* 100 \/ 1024 \/ 100).$(expr ${1} \* 100 \/ 1024 % 100) GB"
         else
