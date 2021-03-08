@@ -68,6 +68,17 @@
   with_items:
     - "{{ admin_users }}"
 
+- name: Create etc-directory
+  file:
+    path: "/home/{{ item.name }}/etc"
+    state: directory
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+    mode: 0755
+  become: yes
+  with_items:
+    - "{{ admin_users }}"
+
 - name: Copy system_status.sh
   copy:
     src: "system_status.sh"
@@ -75,6 +86,17 @@
     owner: "{{ item.name }}"
     group: "{{ item.name }}"
     mode: '0744'
+  become: yes
+  with_items:
+    - "{{ admin_users }}"
+
+- name: Generiere Filetransfer-File
+  template:
+    src: "filetransfer_source.cfg.j2"
+    dest: "/home/{{ item.name }}/etc/filetransfer_source.cfg"
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+    mode: '0600'
   become: yes
   with_items:
     - "{{ admin_users }}"
@@ -88,3 +110,4 @@
   become: yes
   with_items:
     - "{{ admin_users }}"
+

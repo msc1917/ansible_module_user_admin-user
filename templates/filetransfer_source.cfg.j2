@@ -1,0 +1,14 @@
+# {{ ansible_managed }}
+{% for filestore in external_filestore %}
+{%   if (external_filestore[filestore].user is not defined) or (item.name in external_filestore[filestore].user) %}
+{%     if  external_filestore[filestore].description is defined %}
+
+# {{ external_filestore[filestore].description }}
+{%     endif %}
+{%     if  external_filestore[filestore].type == 'sftp' %}
+sftp://{{ external_filestore[filestore].username }}{% if  external_filestore[filestore].password is defined %}/{{ external_filestore[filestore].password }}{% endif %}@{% if  external_filestore[filestore].address is defined %}{{ external_filestore[filestore].address }}{% else %}{{ filestore }}{% endif %}{% if  external_filestore[filestore].port is defined %}:{{ external_filestore[filestore].port }}{% endif %}
+{%     elif  external_filestore[filestore].type == 'ftp' %}
+ftp://{{ external_filestore[filestore].username }}{% if  external_filestore[filestore].password is defined %}/{{ external_filestore[filestore].password }}{% endif %}@{% if  external_filestore[filestore].address is defined %}{{ external_filestore[filestore].address }}{% else %}{{ filestore }}{% endif %}{% if  external_filestore[filestore].port is defined %}:{{ external_filestore[filestore].port }}{% endif %}
+{%     endif %}
+{%   endif %}
+{% endfor %}
