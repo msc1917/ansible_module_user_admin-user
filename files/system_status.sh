@@ -134,7 +134,7 @@ ip_list () {
     }
 
 figlet -f small $(hostname)
-printf %${COLUMNS}s |tr " " "-"
+printf %${WINDOWSIZE}s |tr " " "-"
 
 ip_addresses="$(ip_list)"
 sys_started="Started: $(uptime -s)"
@@ -157,7 +157,7 @@ do
 done
 
 
-printf %${COLUMNS}s |tr " " "-"
+printf %${WINDOWSIZE}s |tr " " "-"
 fs_data="$(df -m | grep -v "tmpfs" | grep -v "^$" )"
 fs_data="$(echo "${fs_data}" | tail -$(expr $(echo "$fs_data" | wc -l) - 1 ) | grep -v "^$" )"
 
@@ -212,4 +212,4 @@ do
     printf "%${len_fs_mountpoint}s  %-${len_fs_used}s %${len_fs_bar}s %${len_fs_full}s  %-${len_fs_directory}s\n" "${fs_mountpoint}" "$(convertMB ${fs_used})" "$(show_bar ${len_fs_bar} ${fs_full} ${fs_used})" "$(convertMB ${fs_full})" "${fs_directory}"
 done
 
-printf %${COLUMNS}s |tr " " "-"
+printf %${WINDOWSIZE}s |tr " " "-"
